@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Pages 自動公開ツール</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 GitHub Pages 自動公開ツール</h1>
+            <p class="subtitle">ファイルをアップロードするだけで、GitHub Pagesとして自動公開</p>
+        </header>
+
+        <!-- ステップインジケーター -->
+        <div class="steps">
+            <div class="step active" data-step="1">
+                <div class="step-number">1</div>
+                <div class="step-label">GitHub認証</div>
+            </div>
+            <div class="step" data-step="2">
+                <div class="step-number">2</div>
+                <div class="step-label">ファイル選択</div>
+            </div>
+            <div class="step" data-step="3">
+                <div class="step-number">3</div>
+                <div class="step-label">公開処理</div>
+            </div>
+            <div class="step" data-step="4">
+                <div class="step-number">4</div>
+                <div class="step-label">完了</div>
+            </div>
+        </div>
+
+        <main>
+            <!-- ステップ1: GitHub認証 -->
+            <section id="auth-section" class="section active">
+                <div class="section-content">
+                    <h2>🔐 GitHubアカウントと連携</h2>
+                    <p class="description">
+                        このツールを使用するには、GitHub Personal Access Tokenが必要です。<br>
+                        以下の手順でトークンを取得してください。
+                    </p>
+                    <div class="auth-status">
+                        <div id="not-authenticated">
+                            <div class="info-box" style="background: #e3f2fd; border-left-color: #2196f3; margin-bottom: 25px;">
+                                <h3>📋 トークン取得の手順</h3>
+                                <ol style="margin-left: 20px; line-height: 1.8;">
+                                    <li><strong>「GitHub認証」ボタンをクリック</strong><br>
+                                        <span style="font-size: 0.9em; color: #586069;">→ 新しいタブでGitHubのトークン生成ページが開きます</span>
+                                    </li>
+                                    <li><strong>トークンの名前を入力</strong><br>
+                                        <span style="font-size: 0.9em; color: #586069;">→ 「Note」フィールドに「GitHub Pages Publisher」等と入力</span>
+                                    </li>
+                                    <li><strong>有効期限を選択</strong>（任意）<br>
+                                        <span style="font-size: 0.9em; color: #586069;">→ デフォルトの30日でOK</span>
+                                    </li>
+                                    <li><strong>⚠️ 重要: スコープを選択</strong><br>
+                                        <span style="font-size: 0.9em; color: #dc3545; font-weight: 600;">→ 必ず「repo」にチェックを入れてください</span>
+                                    </li>
+                                    <li><strong>「Generate token」ボタンをクリック</strong><br>
+                                        <span style="font-size: 0.9em; color: #586069;">→ ページ下部にある緑色のボタンです</span>
+                                    </li>
+                                    <li><strong>トークンをコピー</strong><br>
+                                        <span style="font-size: 0.9em; color: #dc3545; font-weight: 600;">→ ghp_ で始まる文字列（一度しか表示されません！）</span><br>
+                                        <span style="font-size: 0.9em; color: #586069;">→ 右側のコピーアイコン📋をクリック、または文字列を選択してCtrl+C（Mac: Cmd+C）</span>
+                                    </li>
+                                    <li><strong>このツールのタブに戻る</strong><br>
+                                        <span style="font-size: 0.9em; color: #586069;">→ ブラウザのタブ一覧から「GitHub Pages 自動公開ツール」のタブをクリック</span>
+                                    </li>
+                                    <li><strong>ポップアップダイアログにトークンを貼り付け</strong><br>
+                                        <span style="font-size: 0.9em; color: #586069;">→ 表示されている入力ボックスにCtrl+V（Mac: Cmd+V）で貼り付け</span><br>
+                                        <span style="font-size: 0.9em; color: #586069;">→ 「OK」ボタンをクリック</span>
+                                    </li>
+                                </ol>
+                                <p style="margin-top: 15px; padding: 10px; background: #fff3cd; border-radius: 5px; font-size: 0.9em;">
+                                    💡 <strong>ヒント:</strong> トークンは安全な場所に保存してください。このツールではセッション中のみ使用され、ブラウザを閉じると自動的に削除されます。
+                                </p>
+                            </div>
+                            <button id="auth-button" class="primary-button">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                                </svg>
+                                GitHub認証（トークン生成ページを開く）
+                            </button>
+                            <p class="note">※新しいタブでGitHubのトークン生成ページが開きます</p>
+                        </div>
+                        <div id="authenticated" style="display: none;">
+                            <div class="success-message">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                                <span>GitHubアカウントと連携済み</span>
+                            </div>
+                            <p class="user-info">ユーザー名: <strong id="username"></strong></p>
+                            <button id="next-to-upload" class="primary-button">次へ進む</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ステップ2: ファイルアップロード -->
+            <section id="upload-section" class="section">
+                <div class="section-content">
+                    <h2>📁 公開するファイルを選択</h2>
+                    <p class="description">
+                        Webサイトとして公開したいファイルをアップロードしてください。<br>
+                        HTML、CSS、JavaScript、画像ファイルなどをまとめて選択できます。
+                    </p>
+                    
+                    <div class="info-box" style="background: #e3f2fd; border-left-color: #2196f3; margin-bottom: 25px;">
+                        <h3 style="margin-bottom: 10px;">💡 重要なお知らせ</h3>
+                        <ul style="margin-left: 20px; line-height: 1.8;">
+                            <li><strong>README.mdファイルについて:</strong><br>
+                                GitHubがリポジトリ作成時に自動的にREADME.mdを作成するため、<br>
+                                <span style="color: #dc3545; font-weight: 600;">README.mdファイルはアップロードしないでください。</span><br>
+                                必要な場合は、公開後にGitHub上で直接編集できます。
+                            </li>
+                            <li><strong>ファイル名の制限:</strong><br>
+                                日本語やスペース、特殊記号を含むファイル名は使用できません。<br>
+                                英数字、ハイフン（-）、アンダースコア（_）、ピリオド（.）のみ使用してください。
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div class="upload-area" id="upload-area">
+                        <div class="upload-icon">📤</div>
+                        <p class="upload-text">ここにファイルをドラッグ＆ドロップ</p>
+                        <p class="upload-or">または</p>
+                        <button class="secondary-button" id="select-files">ファイルを選択</button>
+                        <input type="file" id="file-input" multiple style="display: none;">
+                    </div>
+
+                    <div id="file-list" class="file-list"></div>
+
+                    <div class="form-group">
+                        <label for="repo-name">リポジトリ名（公開URLに使用されます）</label>
+                        <input type="text" id="repo-name" placeholder="my-awesome-website" 
+                               pattern="[a-zA-Z0-9-_]+" 
+                               title="英数字、ハイフン、アンダースコアのみ使用可能">
+                        <p class="note">※英数字、ハイフン（-）、アンダースコア（_）のみ使用可能</p>
+                    </div>
+
+                    <div class="actions">
+                        <button id="back-to-auth" class="secondary-button">戻る</button>
+                        <button id="start-publish" class="primary-button" disabled>公開を開始</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ステップ3: 公開処理中 -->
+            <section id="publishing-section" class="section">
+                <div class="section-content">
+                    <h2>🔄 公開処理中...</h2>
+                    <p class="description">
+                        GitHubリポジトリを作成し、ファイルをアップロードしています。<br>
+                        しばらくお待ちください。
+                    </p>
+
+                    <div class="progress-container">
+                        <div id="progress-steps">
+                            <div class="progress-step" data-status="pending">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-label">リポジトリ作成中...</div>
+                            </div>
+                            <div class="progress-step" data-status="pending">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-label">ファイルアップロード中...</div>
+                            </div>
+                            <div class="progress-step" data-status="pending">
+                                <div class="progress-icon">⏳</div>
+                                <div class="progress-label">GitHub Pages 有効化中...</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="error-message" class="error-message" style="display: none;"></div>
+                </div>
+            </section>
+
+            <!-- ステップ4: 完了 -->
+            <section id="complete-section" class="section">
+                <div class="section-content">
+                    <h2>✨ 公開完了！</h2>
+                    <p class="description">
+                        Webサイトの公開が完了しました。<br>
+                        以下のURLからアクセスできます。
+                    </p>
+
+                    <div class="result-container">
+                        <div class="result-url">
+                            <label>公開URL:</label>
+                            <div class="url-display">
+                                <a id="published-url" href="" target="_blank"></a>
+                                <button id="copy-url" class="icon-button" title="URLをコピー">
+                                    📋
+                                </button>
+                            </div>
+                        </div>
+                        <div class="result-repo">
+                            <label>GitHubリポジトリ:</label>
+                            <div class="url-display">
+                                <a id="repo-url" href="" target="_blank"></a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="info-box">
+                        <h3>📝 注意事項</h3>
+                        <ul>
+                            <li>公開されたWebサイトは誰でもアクセス可能です</li>
+                            <li>反映まで最大5分程度かかる場合があります</li>
+                            <li>GitHubリポジトリからいつでも編集・削除できます</li>
+                        </ul>
+                    </div>
+
+                    <div class="actions">
+                        <button id="publish-another" class="primary-button">別のサイトを公開</button>
+                        <button id="view-site" class="secondary-button">サイトを見る</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>Made with ❤️ | このツールは教育・学習目的で作成されています</p>
+            <p class="footer-links">
+                <a href="#" id="about-link">使い方</a> | 
+                <a href="#" id="security-link">セキュリティ</a> | 
+                <a href="https://github.com" target="_blank">GitHub</a>
+            </p>
+        </footer>
+    </div>
+
+    <!-- モーダル: 使い方 -->
+    <div id="about-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>📖 使い方</h2>
+            <div class="modal-body">
+                <h3>このツールについて</h3>
+                <p>GitHub Pages 自動公開ツールは、プログラミング初心者でも簡単にWebサイトを公開できるツールです。</p>
+                
+                <h3>使用手順</h3>
+                <ol>
+                    <li><strong>GitHub認証:</strong> GitHubアカウントと連携します</li>
+                    <li><strong>ファイル選択:</strong> 公開したいHTML、CSS、JavaScriptファイルなどを選択</li>
+                    <li><strong>公開処理:</strong> 自動でGitHubリポジトリを作成し、ファイルをアップロード</li>
+                    <li><strong>完了:</strong> 公開URLが表示され、すぐにアクセス可能</li>
+                </ol>
+
+                <h3>必要なもの</h3>
+                <ul>
+                    <li>GitHubアカウント（無料で作成可能）</li>
+                    <li>公開したいWebサイトのファイル（HTML、CSS、JSなど）</li>
+                </ul>
+
+                <h3>制限事項</h3>
+                <ul>
+                    <li>ファイルサイズ: 1ファイルあたり最大100MB</li>
+                    <li>リポジトリサイズ: 合計1GBまで推奨</li>
+                    <li>GitHub API制限: 1時間あたり5,000リクエストまで</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- モーダル: トークン入力 -->
+    <div id="token-modal" class="modal">
+        <div class="modal-content">
+            <h2>🔑 GitHub Personal Access Token を入力</h2>
+            <div class="modal-body">
+                <p style="margin-bottom: 20px;">
+                    GitHubでトークンを生成したら、ここに貼り付けてください。
+                </p>
+                
+                <div class="info-box" style="background: #fff3cd; border-left-color: #ffc107; margin-bottom: 20px;">
+                    <p style="margin: 0; font-size: 0.9em;">
+                        <strong>📌 トークンをまだ作成していない場合:</strong><br>
+                        1. 上記で開いたGitHubのタブに移動<br>
+                        2. 手順に従ってトークンを生成<br>
+                        3. トークンをコピーしてこのタブに戻る
+                    </p>
+                </div>
+
+                <div class="form-group">
+                    <label for="token-input" style="font-weight: 600; margin-bottom: 10px; display: block;">
+                        Personal Access Token:
+                    </label>
+                    <input 
+                        type="text" 
+                        id="token-input" 
+                        placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" 
+                        style="width: 100%; padding: 12px; font-family: monospace; font-size: 0.9em;"
+                        autocomplete="off"
+                    >
+                    <p class="note" style="margin-top: 10px;">
+                        ※ ghp_ で始まる文字列を貼り付けてください
+                    </p>
+                </div>
+
+                <div id="token-error" style="display: none; color: #dc3545; margin: 15px 0; padding: 10px; background: #f8d7da; border-radius: 5px;">
+                </div>
+
+                <div style="display: flex; gap: 15px; margin-top: 25px;">
+                    <button id="token-submit" class="primary-button" style="flex: 1;">
+                        認証する
+                    </button>
+                    <button id="token-cancel" class="secondary-button">
+                        キャンセル
+                    </button>
+                </div>
+
+                <p style="margin-top: 20px; font-size: 0.85em; color: #586069; text-align: center;">
+                    💡 トークンはセッション中のみ保存され、ブラウザを閉じると自動的に削除されます
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- モーダル: セキュリティ -->
+    <div id="security-modal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>🔒 セキュリティについて</h2>
+            <div class="modal-body">
+                <h3>アクセストークンの取り扱い</h3>
+                <p>このツールではGitHub OAuthを使用してアクセストークンを取得します。トークンはブラウザのsessionStorageに一時的に保存され、ブラウザを閉じると自動的に削除されます。</p>
+
+                <h3>プライバシー</h3>
+                <ul>
+                    <li>アップロードされたファイルは直接GitHubに送信されます</li>
+                    <li>このツールのサーバーにはデータは保存されません</li>
+                    <li>個人情報は収集していません</li>
+                </ul>
+
+                <h3>公開される情報</h3>
+                <ul>
+                    <li>アップロードしたファイルは公開リポジトリとして保存されます</li>
+                    <li>誰でもアクセス可能なWebサイトとして公開されます</li>
+                    <li>機密情報を含むファイルはアップロードしないでください</li>
+                </ul>
+
+                <h3>推奨事項</h3>
+                <ul>
+                    <li>APIキーやパスワードなどの機密情報を含まないこと</li>
+                    <li>公開して問題ないファイルのみアップロードすること</li>
+                    <li>定期的にGitHubのセキュリティ設定を確認すること</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="config.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
